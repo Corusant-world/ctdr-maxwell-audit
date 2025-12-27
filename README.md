@@ -1,57 +1,59 @@
-# CTDR: Maxwell Audit & GPU Logic Forensic Tool (v1.0)
-> **"Why is the logic leaking?"** — A professional forensic substrate for auditing H100/Blackwell long-context reasoning stability and memory boundaries.
+# Maxwell: GPU Logic Forensic & OOM Wall Finder (v1.0)
+> **"Where does your H100 actually break?"** — A zero-config utility to audit memory boundaries and logic stability in high-density inference.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![GPU: H100/Blackwell](https://img.shields.io/badge/Hardware-H100%20%7C%20Blackwell-orange.svg)](#)
 
-## 1. Overview
-CTDR (Cold Tensor Deterministic Reasoning) is a forensic toolset designed to identify and mitigate the **NxN Materialization Wall** and **Stochastic Logic Drift** in high-density autonomous systems. This repository contains the public-safe evidence packet, the **Maxwell Dashboard**, and forensic receipts from H100 80GB HBM3 environments.
+---
 
-## 2. The Problem: The Physical Limit of Autonomy
-Current long-context architectures assume infinite memory scalability. In reality, at **N=500k+**, the materialization of fp16 NxN matrices requires ~500GB of HBM, leading to immediate OOM on a single H100.
-- **Inference Liability:** Systems lacking deterministic invariants experience "Logic Collapse" under thermal stress (+67°C).
-- **Entropy Injection:** Probability of illogical movement in robotics approaches 100% after 4 hours of sustained inference.
+## 1. The Core Concept
+Maxwell treats **autonomy as a physical constraint problem**. 
 
-![OOM Wall](https://raw.githubusercontent.com/Corusant-world/ctdr-maxwell-audit/main/assets/graph_oom_wall.png)
+Most long-context benchmarks ignore the **NxN Materialization Wall**. This tool provides the forensic evidence and the mathematical substrate (CTDR) to stay operational when standard fp16 NxN materialization becomes physically impossible.
 
-## 3. Key Features
-- **Deterministic Invariants:** 100% consistency across 256k+ inference cycles.
-- **GPU Utilization:** 90.4% sustained SM utilization on H100 (Receipts included).
-- **Energy Efficiency:** ~70% reduction in J/VQ (Joules per Verified Query) at scale.
-- **Forensic Receipts:** NVML-based power/temp/utilization traces in JSON format.
+## 2. Quick Start (Run the Audit)
+Find your analytic boundary and view the forensic dashboard in seconds.
 
-## 4. Maxwell Dashboard
-A clickable, narrative-first auditor for H100 compute telemetry.
-- **Load a Pack:** Import `summary_public.json` to visualize your own hardware limits.
-- **Compare:** Direct A/B testing against the David-vs-Goliath baseline.
-- **Export:** Generate signed Audit Receipts for technical verification.
-
-## 5. Quick Start
 ```bash
-# 1. Clone the repository
+# Clone and Enter
 git clone https://github.com/Corusant-world/ctdr-maxwell-audit.git && cd ctdr-maxwell-audit
 
-# 2. Launch the Auditor
-# Windows
+# Launch the Maxwell Dashboard (GUI)
+# Windows:
 start maxwell_dashboard/index.html
-# macOS/Linux
+# macOS/Linux:
 open maxwell_dashboard/index.html
 ```
 
-## 6. Platform Support
-- **Hardware:** NVIDIA H100 80GB HBM3 (Primary), NVIDIA Blackwell (Audit target).
-- **Software:** CUDA 12.x+, NVML (for receipts), Python 3.10+.
+## 3. Example Output (Forensic Trace)
+When auditing a standard Blackwell-class inference stack at scale:
 
-## 7. Success Criteria
-CTDR is successful if:
-- Infrastructure owners can identify their OOM analytic boundary within seconds.
-- Stochastic logic jitter is neutralized via p-adic invariants.
-- GPU SM utilization remains >85% during high-density retrieval.
+```text
+[00:00:00] Target: N=500,000 (fp16)
+[00:00:01] Required HBM: ~500 GB
+[00:00:02] Available HBM: 80 GB (H100)
+[00:00:03] Status: [PHYSICAL OOM IMMINENT]
+[04:00:00] Entropy Accumulation: 85%
+[04:05:00] Logic State: [STOCHASTIC COLLAPSE DETECTED]
+[RESULT] : Mission Failure via Logic Leakage.
+```
 
-## 8. AI Assistance Disclaimer
-This project was developed with assistance from AI/LLMs (Cursor, Gemini-1.5-Pro, and custom kernels), supervised by an engineer focused on deterministic mission assurance.
+## 4. Why this exists
+1. **The NxN Wall:** To prove that current "scaling laws" ignore HBM physical limits.
+2. **Deterministic Invariants:** To provide a solution (CTDR) that maintains 100% logic consistency at 67°C.
+3. **Receipts over Vibes:** To ship real NVML energy/telemetry artifacts instead of marketing claims.
 
-## 9. Technical Inquiry & Collaboration
-Seeking a **20-30 min technical screen** with infrastructure owners (Inference/Retrieval/Perf) before **Dec 31**. 
+## 5. Success Criteria
+Maxwell is successful if:
+- You can answer "when will my robot hallucinate due to thermal jitter?" within seconds.
+- You reduce your R&D "Stochastic Tax" by enforcing p-adic invariants.
 
-- **Lead Engineer:** [Stanislav Byriukov]
-- **Focus:** Deterministic substrates, ultrametric memory, and high-density GPU orchestration.
+## 6. AI Assistance Disclaimer
+This project was developed with assistance from AI/LLMs (Cursor, Gemini-1.5-Pro), supervised by an engineer who believes that **light speed is never fast enough**.
+
+---
+
+## Technical Inquiry
+Seeking a technical deep-dive with infrastructure owners (Inference/Retrieval/Perf). 
+- **Lead:** [Stanislav Byriukov]
+- **Focus:** Deterministic substrates & high-density GPU orchestration.
