@@ -1,0 +1,136 @@
+{
+  "timestamp": "2025-12-19 07:08:47",
+  "config": {
+    "gpu_id": 0,
+    "sample_interval_s": 0.05,
+    "window_s": 10.0,
+    "num_candidates": 20000000,
+    "query_u16_len": 256,
+    "num_buckets": 256,
+    "target_bucket": 123,
+    "target_bucket_range": {
+      "start": 9609375,
+      "count": 78125
+    },
+    "seed": 42,
+    "multi_range_k": 1,
+    "multi_range_buckets": [
+      123
+    ],
+    "pass_criteria": {
+      "min_energy_ratio": 100.0,
+      "max_p95_latency_ratio": 2.0
+    }
+  },
+  "correctness": {
+    "baseline": {
+      "idx": 9609375,
+      "best_lcp_u16": 256
+    },
+    "range": {
+      "idx": 9609375,
+      "best_lcp_u16": 256,
+      "ok": true
+    },
+    "multi_range": {
+      "idx": 9609375,
+      "best_lcp_u16": 256,
+      "ok": true
+    }
+  },
+  "windows": {
+    "full_scan": {
+      "name": "full_scan_top1",
+      "duration_s": 10.00279424700011,
+      "queries": 268,
+      "qps": 26.792513509949938,
+      "latency_avg_ms": 37.32163120149132,
+      "latency_p95_ms": 37.523502350018134,
+      "energy_joules": 1196.0764305598163,
+      "energy_per_query_joules": 4.46297175582021,
+      "sampler": {
+        "backend": "nvml",
+        "interval_s": 0.05,
+        "num_samples": 58,
+        "avg_gpu_util_pct": 99.93103448275862,
+        "avg_power_w": 119.69129310344827,
+        "metadata": {
+          "power_limit_w": 350.0,
+          "name": "NVIDIA H100 PCIe"
+        }
+      }
+    },
+    "range_scan": {
+      "name": "range_scan_top1",
+      "duration_s": 10.000110199999881,
+      "queries": 88686,
+      "qps": 8868.5022691051,
+      "latency_avg_ms": 0.1124996757442206,
+      "latency_p95_ms": 0.11413900006118638,
+      "energy_joules": 1284.252361409232,
+      "energy_per_query_joules": 0.014480891701161762,
+      "sampler": {
+        "backend": "nvml",
+        "interval_s": 0.05,
+        "num_samples": 146,
+        "avg_gpu_util_pct": 86.04109589041096,
+        "avg_power_w": 128.37015068493147,
+        "metadata": {
+          "power_limit_w": 350.0,
+          "name": "NVIDIA H100 PCIe"
+        }
+      }
+    },
+    "multi_range_scan": {
+      "name": "multi_range_scan_top1",
+      "duration_s": 10.00006000999997,
+      "queries": 88464,
+      "qps": 8846.3469130722,
+      "latency_avg_ms": 0.11279240944372114,
+      "latency_p95_ms": 0.1141780001034931,
+      "energy_joules": 1296.1140236568588,
+      "energy_per_query_joules": 0.014651316056891604,
+      "sampler": {
+        "backend": "nvml",
+        "interval_s": 0.05,
+        "num_samples": 147,
+        "avg_gpu_util_pct": 85.95238095238095,
+        "avg_power_w": 129.61153741496602,
+        "metadata": {
+          "power_limit_w": 350.0,
+          "name": "NVIDIA H100 PCIe"
+        }
+      }
+    }
+  },
+  "delta": {
+    "energy_per_query_ratio_full_over_range": 308.19730220495734,
+    "energy_per_query_ratio_full_over_multi": 304.6123459824582,
+    "expected_scan_reduction_factor": 256.0,
+    "expected_scan_reduction_factor_multi_nominal": 256.0
+  },
+  "passfail": {
+    "range_scan": {
+      "min_energy_ratio": 100.0,
+      "max_p95_latency_ratio": 2.0,
+      "energy_ratio_baseline_over_candidate": 308.19730220495734,
+      "latency_p95_ratio_candidate_over_baseline": 0.0030418002828334393,
+      "pass": true,
+      "details": {
+        "energy_ok": true,
+        "latency_ok": true
+      }
+    },
+    "multi_range_scan": {
+      "min_energy_ratio": 100.0,
+      "max_p95_latency_ratio": 2.0,
+      "energy_ratio_baseline_over_candidate": 304.6123459824582,
+      "latency_p95_ratio_candidate_over_baseline": 0.0030428396325706502,
+      "pass": true,
+      "details": {
+        "energy_ok": true,
+        "latency_ok": true
+      }
+    }
+  }
+}

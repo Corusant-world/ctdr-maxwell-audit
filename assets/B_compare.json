@@ -1,0 +1,93 @@
+{
+  "ctdr": {
+    "engine": "ctdr",
+    "mode": "direct_gpu_dpx_lcp_index_top1",
+    "n_candidates": 2000000,
+    "max_len": 256,
+    "prefix_len": 128,
+    "shared_prefix_len": 128,
+    "truth_mode": "unique_match",
+    "n_queries": 8055,
+    "run_seconds_target": 30.0,
+    "warmup_s": 5.0,
+    "max_latency_samples": 200000,
+    "setup_time_s": 1.1795370459999504,
+    "duration_s": 30.001229298999988,
+    "latency_ms": {
+      "avg": 3.7227723779040747,
+      "p50": 3.7118640002518077,
+      "p95": 3.8258933001543483,
+      "p99": 3.8624722600343375
+    },
+    "qps": 268.4889982247658,
+    "energy": {
+      "backend": "nvml",
+      "energy_j": 3664.053497741193,
+      "joules_per_query": 0.45487939140176203,
+      "samples": 544,
+      "power_w_avg": 125.83285294117647,
+      "power_w_max": 127.947,
+      "temp_c_avg": 41.07366482504604,
+      "temp_c_max": 43.0,
+      "gpu_util_pct_avg": 98.74401473296501,
+      "gpu_util_pct_max": 99.0,
+      "metadata": {
+        "power_limit_w": 350.0,
+        "name": "NVIDIA H100 PCIe"
+      }
+    },
+    "accuracy": {
+      "top1_accuracy": 1.0
+    }
+  },
+  "vector": {
+    "engine": "vector_scan",
+    "mode": "gpu_vector_scan_cosine_fp32_chunked",
+    "n_candidates": 2000000,
+    "max_len": 256,
+    "prefix_len": 128,
+    "shared_prefix_len": 128,
+    "truth_mode": "unique_match",
+    "n_queries": 19569,
+    "run_seconds_target": 30.0,
+    "warmup_s": 5.0,
+    "max_latency_samples": 200000,
+    "setup_time_s": 0.46443522399977155,
+    "duration_s": 30.001065170999937,
+    "latency_ms": {
+      "avg": 1.5316399818077195,
+      "p50": 1.5304369999284972,
+      "p95": 1.5416170002026774,
+      "p99": 1.554885799960175
+    },
+    "qps": 652.2768404541873,
+    "energy": {
+      "backend": "nvml",
+      "energy_j": 7671.222799245753,
+      "joules_per_query": 0.3920089324567302,
+      "samples": 715,
+      "power_w_avg": 261.88403916083917,
+      "power_w_max": 276.868,
+      "temp_c_avg": 41.96778711484594,
+      "temp_c_max": 47.0,
+      "gpu_util_pct_avg": 93.82773109243698,
+      "gpu_util_pct_max": 98.0,
+      "metadata": {
+        "power_limit_w": 350.0,
+        "name": "NVIDIA H100 PCIe"
+      }
+    },
+    "accuracy": {
+      "top1_accuracy": 1.0
+    }
+  },
+  "notes": {
+    "public_slim": true,
+    "timeseries_omitted": "Timeseries is intentionally omitted in this public-slim AB artifact to keep the repo small. See assets/summary_public.json for optional telemetry timeseries used by the flight recorder.",
+    "baseline_note": "vector_scan is GPU brute-force cosine similarity on float32 vectors (chunked), not semantic embeddings.",
+    "truth_mode": "unique_match enforces one exact match row (top-1 correctness measurable)."
+  }
+}
+
+
+

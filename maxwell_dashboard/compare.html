@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Maxwell's Demon — Compare Packs (public-safe)</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="hero">
+        <div class="hero-left">
+          <div class="kicker">Maxwell's Demon</div>
+          <h1>Compare Packs</h1>
+          <p class="sub">
+            Load two <span class="mono">summary_public.json</span> files (Pack Standard v1) and compare the key metrics.
+            No network, no server, no dependencies.
+          </p>
+        </div>
+        <div class="hero-right">
+          <div class="cta">
+            <div class="cta-title">Input</div>
+            <div class="cta-body" style="gap:12px">
+              <label class="file">
+                <div class="file-title">Pack A (summary_public.json)</div>
+                <input id="fileA" type="file" accept="application/json,.json" />
+              </label>
+              <label class="file">
+                <div class="file-title">Pack B (summary_public.json)</div>
+                <input id="fileB" type="file" accept="application/json,.json" />
+              </label>
+            </div>
+            <div class="cta-foot">
+              <div class="small dim">
+                Tip: unzip each evidence.zip, then pick the embedded
+                <span class="mono">summary_public.json</span>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panel-title">Comparison (A vs B)</div>
+        <div class="panel-body">
+          <div id="status" class="note">Pick two files to populate the table.</div>
+          <div class="table-wrap">
+            <table class="cmp" id="cmpTable">
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>Pack A</th>
+                  <th>Pack B</th>
+                  <th>Delta</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="note">
+            Rules:
+            <ul class="bullets">
+              <li><strong>Lower is better</strong>: latency p95, J/query, power avg, temp avg</li>
+              <li><strong>Higher is better</strong>: QPS, GPU util avg, accuracy</li>
+              <li><strong>Exactness</strong> must stay at 1.0 for “verified retrieval” claims.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="./compare.js"></script>
+  </body>
+</html>
+
+

@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Maxwell's Demon — David vs Goliath (public-safe)</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="../assets/summary_public.js"></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="hero">
+        <div class="hero-left">
+          <div class="kicker">Maxwell's Demon</div>
+          <h1>David vs Goliath</h1>
+          <p class="sub">
+            This dashboard tracks 3 decision-grade knobs for H100 long‑context compute:
+            <strong>energy receipts</strong>, <strong>verifiable correctness</strong>, <strong>latency/throughput</strong>.
+            Every number below is <strong>clickable evidence</strong> derived from public-safe artifacts.
+          </p>
+        </div>
+        <div class="hero-right">
+          <div class="cta">
+            <div class="cta-title">Prove it</div>
+            <div class="cta-body">
+              <a class="btn" href="../evidence_public/evidence.zip">Download evidence.zip</a>
+              <a class="btn btn-ghost" href="../evidence_public/README.md">What’s inside</a>
+              <a class="btn btn-ghost" href="./compare.html">Compare packs</a>
+            </div>
+            <div class="cta-body" style="margin-top:10px; width:100%">
+              <label class="file">
+                <div class="file-title">Load a pack (summary_public.json)</div>
+                <input id="packFile" type="file" accept="application/json,.json" />
+              </label>
+            </div>
+            <div class="cta-foot">
+              <div class="small">
+                Source:
+                <a class="mono" id="src-bcompare" href="#">B_compare.json</a>
+              </div>
+              <div class="small mono" id="src-sha">sha256: …</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="top-grid">
+        <div class="panel">
+          <div class="panel-title">Feasibility Boundary (analytic)</div>
+          <div class="panel-body">
+            <img class="img" src="../assets/graph_oom_wall.png" alt="OOM wall graph" />
+            <div class="note">
+              fp16 NxN bytes = N²·2. H100 80GB boundary at
+              <span class="mono" id="oom-n80">…</span>.
+              <span class="dim">Physical memory limit. Example: N=1M → 2TB ≈ 25×H100; N=2M → 8TB ≈ 100×H100.</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Energy Receipts (measured)</div>
+          <div class="panel-body">
+            <img class="img" src="../assets/graph_joules_per_query.png" alt="Joules per query graph" />
+            <div class="note">
+              Honest caveat: this is <strong>one</strong> measured run with an explicitly-defined baseline.
+              Use this chart to show I ship <strong>receipts</strong>, not vibes.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="split">
+        <div class="col col-left">
+          <div class="col-head">
+            <div class="col-title">Goliath</div>
+            <div class="col-sub">Status Quo (measured baseline in this packet)</div>
+          </div>
+
+          <div class="cards">
+            <div class="card red">
+              <div class="card-title">Equipment</div>
+              <div class="card-body">
+                <div class="kv">
+                  <div class="k">GPU</div>
+                  <div class="v mono" data-path="gpu.name">…</div>
+                </div>
+                <div class="kv">
+                  <div class="k">Baseline</div>
+                  <div class="v mono" data-path="measured.baseline_vector_scan.mode">…</div>
+                </div>
+                <div class="small dim">
+                  Note: this baseline is brute-force cosine over fp32 vectors (chunked), not semantic embeddings.
+                </div>
+              </div>
+            </div>
+
+            <div class="card red">
+              <div class="card-title">Latency</div>
+              <div class="card-body">
+                <div class="metric">
+                  <div class="m-label">p95</div>
+                  <div class="m-value mono" data-path="measured.baseline_vector_scan.latency_ms.p95">…</div>
+                  <div class="m-unit">ms</div>
+                </div>
+                <div class="metric">
+                  <div class="m-label">QPS</div>
+                  <div class="m-value mono" data-path="measured.baseline_vector_scan.qps">…</div>
+                  <div class="m-unit">/s</div>
+                </div>
+              </div>
+              <div class="card-foot">
+                <a class="link" data-artifact="b_compare" href="#">open artifact</a>
+              </div>
+            </div>
+
+            <div class="card red">
+              <div class="card-title">Energy</div>
+              <div class="card-body">
+                <div class="metric">
+                  <div class="m-label">J/query</div>
+                  <div class="m-value mono" data-path="measured.baseline_vector_scan.energy.joules_per_query">…</div>
+                  <div class="m-unit">J</div>
+                </div>
+                <div class="metric">
+                  <div class="m-label">Power avg</div>
+                  <div class="m-value mono" data-path="measured.baseline_vector_scan.energy.power_w_avg">…</div>
+                  <div class="m-unit">W</div>
+                </div>
+                <div class="metric">
+                  <div class="m-label">GPU util avg</div>
+                  <div class="m-value mono" data-path="measured.baseline_vector_scan.energy.gpu_util_pct_avg">…</div>
+                  <div class="m-unit">%</div>
+                </div>
+              </div>
+              <div class="card-foot">
+                <a class="link" data-artifact="b_compare" href="#">open artifact</a>
+              </div>
+            </div>
+
+            <div class="card red">
+              <div class="card-title">Correctness (this run)</div>
+              <div class="card-body">
+                <div class="metric">
+                  <div class="m-label">Top‑1 accuracy</div>
+                  <div class="m-value mono" data-path="measured.baseline_vector_scan.accuracy.top1_accuracy">…</div>
+                  <div class="m-unit"></div>
+                </div>
+              <div class="small dim">
+                Exact-match synthetic truth_mode. No "hallucination" narrative here unless I publish a measured artifact for it.
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col col-right">
+          <div class="col-head">
+            <div class="col-title breathe">David</div>
+            <div class="col-sub">Protocol Omega / CTDR (measured)</div>
+          </div>
+
+          <div class="cards">
+            <div class="card blue">
+              <div class="card-title">Equipment</div>
+              <div class="card-body">
+                <div class="kv">
+                  <div class="k">GPU</div>
+                  <div class="v mono" data-path="gpu.name">…</div>
+                </div>
+                <div class="kv">
+                  <div class="k">Omega mode</div>
+                  <div class="v mono" data-path="measured.ctdr.mode">…</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card blue">
+              <div class="card-title">Latency</div>
+              <div class="card-body">
+                <div class="metric">
+                  <div class="m-label">p95</div>
+                  <div class="m-value mono" data-path="measured.ctdr.latency_ms.p95">…</div>
+                  <div class="m-unit">ms</div>
+                </div>
+                <div class="metric">
+                  <div class="m-label">QPS</div>
+                  <div class="m-value mono" data-path="measured.ctdr.qps">…</div>
+                  <div class="m-unit">/s</div>
+                </div>
+              </div>
+              <div class="card-foot">
+                <a class="link" data-artifact="b_compare" href="#">open artifact</a>
+              </div>
+            </div>
+
+            <div class="card blue">
+              <div class="card-title">Energy</div>
+              <div class="card-body">
+                <div class="metric">
+                  <div class="m-label">J/query</div>
+                  <div class="m-value mono" data-path="measured.ctdr.energy.joules_per_query">…</div>
+                  <div class="m-unit">J</div>
+                </div>
+                <div class="metric">
+                  <div class="m-label">Power avg</div>
+                  <div class="m-value mono" data-path="measured.ctdr.energy.power_w_avg">…</div>
+                  <div class="m-unit">W</div>
+                </div>
+                <div class="metric">
+                  <div class="m-label">GPU util avg</div>
+                  <div class="m-value mono" data-path="measured.ctdr.energy.gpu_util_pct_avg">…</div>
+                  <div class="m-unit">%</div>
+                </div>
+              </div>
+              <div class="card-foot">
+                <a class="link" data-artifact="b_compare" href="#">open artifact</a>
+              </div>
+            </div>
+
+            <div class="card blue">
+              <div class="card-title">Correctness (this run)</div>
+              <div class="card-body">
+                <div class="metric">
+                  <div class="m-label">Top‑1 accuracy</div>
+                  <div class="m-value mono" data-path="measured.ctdr.accuracy.top1_accuracy">…</div>
+                  <div class="m-unit"></div>
+                </div>
+                <div class="small dim">
+                  Decision-grade metric here is verifiable correctness (exact match) + receipts.
+                  Deterministic replay/decision traces are in the SIGMA stack plan (not part of this public packet yet).
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title">Gates (red lines)</div>
+        <div class="panel-body">
+          <div class="gate-grid">
+            <div class="gate">
+              <div class="gate-name">Exactness (top‑1)</div>
+              <div class="gate-row">
+                <div class="gate-side red">Baseline: <span class="mono" data-path="measured.baseline_vector_scan.accuracy.top1_accuracy">—</span></div>
+                <div class="gate-side blue">Omega: <span class="mono" data-path="measured.ctdr.accuracy.top1_accuracy">—</span></div>
+              </div>
+              <div class="gate-status" id="gate-exactness">—</div>
+            </div>
+
+            <div class="gate">
+              <div class="gate-name">GPU utilization (SM)</div>
+              <div class="gate-row">
+                <div class="gate-side red">Baseline: <span class="mono" data-path="measured.baseline_vector_scan.energy.gpu_util_pct_avg">—</span>%</div>
+                <div class="gate-side blue">Omega: <span class="mono" data-path="measured.ctdr.energy.gpu_util_pct_avg">—</span>%</div>
+              </div>
+              <div class="bar">
+                <div class="bar-mark" style="left:70%">70%</div>
+                <div class="bar-mark" style="left:85%">85%</div>
+                <div class="bar-fill red" id="bar-util-baseline"></div>
+                <div class="bar-fill blue" id="bar-util-omega"></div>
+              </div>
+              <div class="gate-status" id="gate-util">—</div>
+            </div>
+
+            <div class="gate">
+              <div class="gate-name">Power stress (avg / limit)</div>
+              <div class="gate-row">
+                <div class="gate-side red">Baseline: <span class="mono" data-path="measured.baseline_vector_scan.energy.power_w_avg">—</span>W</div>
+                <div class="gate-side blue">Omega: <span class="mono" data-path="measured.ctdr.energy.power_w_avg">—</span>W</div>
+              </div>
+              <div class="bar">
+                <div class="bar-mark" style="left:80%">80%</div>
+                <div class="bar-mark" style="left:100%">limit</div>
+                <div class="bar-fill red" id="bar-power-baseline"></div>
+                <div class="bar-fill blue" id="bar-power-omega"></div>
+              </div>
+              <div class="gate-status" id="gate-power">—</div>
+            </div>
+          </div>
+
+          <div class="note">
+            These are “red lines” meant for fast reading. Full receipts live in the JSON artifacts referenced above.
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title">Flight recorder (GPU telemetry)</div>
+        <div class="panel-body">
+          <div class="telemetry-head">
+            <div class="small dim">
+              This is a time-series view (NVML / nvidia-smi) to show <em>when</em> a gate failed. It is optional: packs
+              may omit telemetry to stay small.
+            </div>
+            <div class="telemetry-controls">
+              <label class="small dim">Track</label>
+              <select id="telemetryTrack">
+                <option value="omega">Omega (my run)</option>
+                <option value="baseline">Baseline</option>
+              </select>
+            </div>
+          </div>
+          <canvas id="telemetryCanvas" width="980" height="260"></canvas>
+          <div class="telemetry-legend small dim">
+            Lines are normalized to 0–100: <span class="mono">util%</span>, <span class="mono">power% of limit</span>,
+            <span class="mono">temp°C mapped 20→0, 90→100</span>. Red shading highlights segments that violate gates.
+          </div>
+          <div class="telemetry-status small mono" id="telemetryStatus">telemetry: —</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title">Memoization / routing track (M≪N)</div>
+        <div class="panel-body">
+          <div class="small dim">
+            This track shows what happens when the work shrinks from scanning <span class="mono">N</span> candidates to scanning a routed subset <span class="mono">M≪N</span>
+            (prefix-bucket layout + DPX range top‑1). This is the “asymmetry” axis where large-scale wins show up.
+          </div>
+
+          <div class="split" style="margin-top:10px">
+            <div class="card">
+              <div class="card-title">Scale</div>
+              <div class="card-body">
+                <div class="metric">
+                  <div class="m-label">N candidates</div>
+                  <div class="m-value mono" data-path="tracks.memoization_prefix_range.data.config.num_candidates">…</div>
+                  <div class="m-unit"></div>
+                </div>
+                <div class="metric">
+                  <div class="m-label">Buckets</div>
+                  <div class="m-value mono" data-path="tracks.memoization_prefix_range.data.config.num_buckets">…</div>
+                  <div class="m-unit"></div>
+                </div>
+                <div class="metric">
+                  <div class="m-label">Routed range size (M)</div>
+                  <div class="m-value mono" data-path="tracks.memoization_prefix_range.data.config.target_bucket_range.count">…</div>
+                  <div class="m-unit"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Energy per verified query</div>
+              <div class="card-body">
+                <div class="metric">
+                  <div class="m-label">Baseline (full scan)</div>
+                  <div class="m-value mono" data-path="tracks.memoization_prefix_range.data.windows.full_scan.energy_per_query_joules">…</div>
+                  <div class="m-unit">J/q</div>
+                </div>
+                <div class="metric">
+                  <div class="m-label">Sigma (routed range)</div>
+                  <div class="m-value mono" data-path="tracks.memoization_prefix_range.data.windows.range_scan.energy_per_query_joules">…</div>
+                  <div class="m-unit">J/q</div>
+                </div>
+                <div class="metric">
+                  <div class="m-label">Reduction</div>
+                  <div class="m-value mono" data-path="tracks.memoization_prefix_range.data.delta.energy_per_query_ratio_full_over_range">…</div>
+                  <div class="m-unit">×</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gate-grid" style="margin-top:12px">
+            <div class="gate">
+              <div class="gate-name">Memoization gate</div>
+              <div class="gate-row">
+                <div class="gate-side red">Min energy ratio: <span class="mono" data-path="tracks.memoization_prefix_range.data.config.pass_criteria.min_energy_ratio">—</span>×</div>
+                <div class="gate-side blue">Measured: <span class="mono" data-path="tracks.memoization_prefix_range.data.delta.energy_per_query_ratio_full_over_range">—</span>×</div>
+              </div>
+              <div class="gate-status" id="gate-memo">—</div>
+            </div>
+          </div>
+
+          <div class="note">
+            Source artifact: <span class="mono">assets/memoization_prefix_range.json</span> (public-safe).
+          </div>
+        </div>
+      </section>
+
+      <section class="bottom">
+        <div class="panel">
+          <div class="panel-title">Energy Audit (public-safe)</div>
+          <div class="panel-body">
+            <ul class="bullets">
+              <li><strong>Unit:</strong> Joules per <em>Verified Query</em> (J/VQ). Here VQ is “top‑1 correct” under a measurable truth_mode.</li>
+              <li><strong>Receipts:</strong> NVML power/util/temp samples + integrated energy are in the JSON artifact.</li>
+              <li><strong>Crypto receipt:</strong> I hash the artifact and publish the hash (no blockchain/NFT).</li>
+            </ul>
+            <div class="note">
+              Want the “Reaper Effect / HNSW collapse” track? That’s a <em>challenge</em> track: I only claim it when I publish a measured harness.
+              See: <a href="../posts/INFINITE_CONTEXT_CHALLENGE.md">INFINITE_CONTEXT_CHALLENGE.md</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
+
+

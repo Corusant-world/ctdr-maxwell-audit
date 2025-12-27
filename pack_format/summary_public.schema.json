@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sigma public pack summary (summary_public.json) v1",
+  "type": "object",
+  "required": ["schema", "gpu", "metrics", "disclaimers"],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "sigma_summary_public_v1"
+    },
+    "gpu": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "power_limit_w": { "type": ["number", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["omega", "baseline"],
+      "properties": {
+        "omega": {
+          "type": "object",
+          "required": ["qps", "lat_p95_ms", "top1_accuracy"],
+          "properties": {
+            "qps": { "type": ["number", "null"] },
+            "lat_p95_ms": { "type": ["number", "null"] },
+            "joules_per_query": { "type": ["number", "null"] },
+            "power_w_avg": { "type": ["number", "null"] },
+            "gpu_util_pct_avg": { "type": ["number", "null"] },
+            "temp_c_avg": { "type": ["number", "null"] },
+            "top1_accuracy": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0 }
+          },
+          "additionalProperties": true
+        },
+        "baseline": {
+          "type": "object",
+          "required": ["qps", "lat_p95_ms", "top1_accuracy"],
+          "properties": {
+            "qps": { "type": ["number", "null"] },
+            "lat_p95_ms": { "type": ["number", "null"] },
+            "joules_per_query": { "type": ["number", "null"] },
+            "power_w_avg": { "type": ["number", "null"] },
+            "gpu_util_pct_avg": { "type": ["number", "null"] },
+            "temp_c_avg": { "type": ["number", "null"] },
+            "top1_accuracy": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0 }
+          },
+          "additionalProperties": true
+        },
+        "feasibility": {
+          "type": "object",
+          "properties": {
+            "oom_wall_n_at_80gb_fp16_nxn": { "type": ["integer", "null"] }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "source": { "type": "object", "additionalProperties": true },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "omega": {
+          "type": "object",
+          "properties": {
+            "gpu": { "type": "object", "additionalProperties": true }
+          },
+          "additionalProperties": true
+        },
+        "baseline": {
+          "type": "object",
+          "properties": {
+            "gpu": { "type": "object", "additionalProperties": true }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "disclaimers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": true
+}
+
+
