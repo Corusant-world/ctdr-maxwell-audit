@@ -32,7 +32,10 @@ open maxwell_dashboard/index.html
 2. **Compare**: Compare your H100 benchmarks against the David-v-Goliath baseline.
 3. **Audit**: Use "Export Audit Receipt" to verify results.
 
-## 5. CONTACT / NEXT STEPS
-Seeking a **20-30 min technical screen** with infrastructure owners before **Dec 31**. 
+## 5. TECHNICAL INQUIRY & COLLABORATION
+This release is a public-safe baseline intended to foster discussion on deterministic reasoning and GPU efficiency at scale. 
 
-[Inquire via Stanislav Byriukov]
+If you are an infrastructure owner (Inference/Retrieval/Perf) interested in a technical deep-dive into the CTDR/SIGMA stack or OOM wall mitigation strategies, I am open to a technical screen to discuss results and integration.
+
+- **Lead Engineer:** [Stanislav Byriukov]
+- **Focus:** Deterministic substrates, ultrametric memory, and high-density GPU orchestration.
